@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class Subject : MonoBehaviour
 {
-    public int moveSpeed = 30;
-    protected Color color;
+    protected int moveSpeed = 30;
+    [SerializeField]protected bool poweredUp;
+    protected float powerUpDuration; 
+    protected Menu menu; 
+    protected PUSpawner pus;
+
     protected void InstantiateParticle(GameObject part) 
     {
         Instantiate(part, transform.position, Quaternion.identity); 
-    } 
+    }
 }

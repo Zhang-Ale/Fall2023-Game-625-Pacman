@@ -5,26 +5,55 @@ using UnityEngine.AI;
 
 public class EnemyMovement : Subject
 {
-    public GameObject player;
+    GameObject player;
     NavMeshAgent enemy;
-    public GameObject part; 
+    public GameObject part, PUparticle;
 
     void Start()
     {
-        enemy = gameObject.GetComponent<NavMeshAgent>(); 
+        player = GameObject.FindGameObjectWithTag("Player");
+        poweredUp = false;
+        enemy = gameObject.GetComponent<NavMeshAgent>();
+        menu = GameObject.FindGameObjectWithTag("Menu").GetComponent<Menu>();
+        pus = GameObject.FindGameObjectWithTag("PUS").GetComponent<PUSpawner>();
     }
 
     void Update()
     {
-        enemy.SetDestination(player.transform.position); 
-        if(enemy.GetComponent<Rigidbody>().velocity.magnitude != 0)
+        if (menu.gameStarted)
         {
-            Invoke("Insta", 5);  
+            enemy.SetDestination(player.transform.position);
+        }
+        
+        if(GetComponent<Rigidbody>().velocity.magnitude != 0)
+        {
+            InstantiateParticle(part);
+        }
+
+        if (poweredUp)
+        {
+            StartCoroutine(PowerUpTime());
+        }
+        else
+        {
+            StopCoroutine(PowerUpTime());
         }
     }
 
-    void Insta()
+    IEnumerator PowerUpTime()
     {
-        InstantiateParticle(part);
+        InstantiateParticle(PUparticle);
+        yield return new WaitForSeconds(powerUpDuration);
+        poweredUp = false;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "PowerUp")
+        {
+            poweredUp = true;
+            Destroy(other.gameObject);
+            pus.Spawn(); 
+        }
     }
 }
