@@ -11,6 +11,6 @@ Kill 5 enemies after getting the power-up!
 **Game reference:** 
 Pacman ([Video link]([https://youtu.be/1SY0WK3TPq0](https://www.youtube.com/watch?v=dScq4P5gn4A&pp=ygULcGFjbWFuIGdhbWU%3D)))
 
-[**Playable link to game**](https://zhang-ale.github.io/game615-spring2023-midterm/play/)
+[**Playable link to game**](https://zhang-ale.github.io/Fall2023-Game-625-Pacman/Build/)
  
-[**Source link**](https://github.com/Zhang-Ale/Fall2023-Game-625-Pacman/tree/main/)
+[**Source link**](https://github.com/Zhang-Ale/Fall2023-Game-625-Pacman/tree/main)
