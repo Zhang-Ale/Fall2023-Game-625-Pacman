@@ -9,7 +9,7 @@ Press the WASD buttons to play.
 Kill 5 enemies after getting the power-up!
 
 **Game reference:** 
-Pacman ([Video link](https://www.youtube.com/watch?v=dScq4P5gn4A&pp=ygULcGFjbWFuIGdhbWU%3D))
+Pacman ([Video link]https://www.youtube.com/watch?v=dScq4P5gn4A&pp=ygULcGFjbWFuIGdhbWU%3D)
 
 [**Playable link to game**](https://zhang-ale.github.io/Fall2023-Game-625-Pacman/Build/)
  
