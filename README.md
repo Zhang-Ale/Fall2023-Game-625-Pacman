@@ -1,4 +1,4 @@
-**Project:** _"Pacman alt"_
+**Project:** _"Pacman"_
 
 **Student:** HongCheng Zhang
 
