@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class PlayerMovement : Subject
 {
@@ -8,8 +9,9 @@ public class PlayerMovement : Subject
     private CharacterController CC;
     Rigidbody RB; 
     public GameObject particle, PUparticle; 
-    bool dead;
-    public Spawner spawner;
+    public GameObject spawner;
+    public bool playerDead;
+    GameObject[] Enemies; 
 
     private void Start()
     {
@@ -18,13 +20,14 @@ public class PlayerMovement : Subject
         pus = GameObject.FindGameObjectWithTag("PUS").GetComponent<PUSpawner>();
         CC = GetComponent<CharacterController>();
         RB = GetComponent<Rigidbody>();
+        
     }
 
     void Update()
     {
         if (menu.gameStarted)
         {
-            spawner.enabled = true;
+            spawner.GetComponent<Spawner>().enabled = true;
             RB.constraints = RigidbodyConstraints.None;
             RB.constraints = RigidbodyConstraints.FreezePositionY;
             Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
@@ -32,7 +35,7 @@ public class PlayerMovement : Subject
             CC.Move(motion);
         }
 
-        if (GetComponent<Rigidbody>().velocity.magnitude != 0 && !dead)
+        if (GetComponent<Rigidbody>().velocity.magnitude != 0 && !playerDead)
         {
             InstantiateParticle(particle);
         }
@@ -44,6 +47,17 @@ public class PlayerMovement : Subject
         else
         {
             StopCoroutine(PowerUpTime());
+        }
+
+        if (playerDead)
+        {
+            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+            Enemies = GameObject.FindGameObjectsWithTag("Enemy");
+            foreach (GameObject enemy in Enemies)
+            {
+                enemy.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+                enemy.GetComponent<NavMeshAgent>().speed = 0; 
+            }
         }
     }
 
@@ -60,15 +74,14 @@ public class PlayerMovement : Subject
         {
             if (!poweredUp)
             {
-                dead = true;
-                GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+                playerDead = true;
                 menu.gameStarted = false;
-                spawner.enabled = false;
+                Destroy(spawner);
                 menu.StopGame(); 
             }
             else
             {
-                dead = false;
+                playerDead = false;
                 Destroy(other.gameObject);
                 menu.AddPoint(); 
             }
@@ -78,7 +91,7 @@ public class PlayerMovement : Subject
         {
             poweredUp = true;
             Destroy(other.gameObject);
-            pus.Spawn(); 
+            //pus.Spawn(); 
         }
     }
 }

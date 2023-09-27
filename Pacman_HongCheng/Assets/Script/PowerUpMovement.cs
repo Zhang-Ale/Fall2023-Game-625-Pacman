@@ -32,25 +32,25 @@ public class PowerUpMovement : Subject
         if (menu.gameStarted)
         {
             SetNextDestination();
-        }
 
-        var distanceToTarget = Vector3.Distance(transform.position, enemy.transform.position);
+            var distanceToTarget = Vector3.Distance(transform.position, enemy.transform.position);
 
-        if (distanceToTarget < smellSense)
-        {
-            powerUp.destination = enemy.transform.position;
-            moveSpeed = 40; 
-            isSeeking = true;
-        }
-        else
-        {
-            isSeeking = false;
-            moveSpeed = 30;
-            var distanceToDestination = Vector3.Distance(transform.position, _destination.transform.position);
-
-            if (distanceToDestination < .5f)
+            if (distanceToTarget < smellSense)
             {
-                SetNextDestination();
+                powerUp.destination = enemy.transform.position;
+                moveSpeed = 40;
+                isSeeking = true;
+            }
+            else
+            {
+                isSeeking = false;
+                moveSpeed = 30;
+                var distanceToDestination = Vector3.Distance(transform.position, _destination.transform.position);
+
+                if (distanceToDestination < .5f)
+                {
+                    SetNextDestination();
+                }
             }
         }
 

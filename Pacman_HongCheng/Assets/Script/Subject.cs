@@ -6,7 +6,7 @@ public class Subject : MonoBehaviour
 {
     protected int moveSpeed = 30;
     [SerializeField]protected bool poweredUp;
-    protected float powerUpDuration; 
+    protected float powerUpDuration = 5; 
     protected Menu menu; 
     protected PUSpawner pus;
 
@@ -14,4 +14,5 @@ public class Subject : MonoBehaviour
     {
         Instantiate(part, transform.position, Quaternion.identity); 
     }
+
 }

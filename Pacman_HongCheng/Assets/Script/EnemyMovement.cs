@@ -38,6 +38,7 @@ public class EnemyMovement : Subject
         {
             StopCoroutine(PowerUpTime());
         }
+
     }
 
     IEnumerator PowerUpTime()
@@ -53,7 +54,7 @@ public class EnemyMovement : Subject
         {
             poweredUp = true;
             Destroy(other.gameObject);
-            pus.Spawn(); 
+            //pus.Spawn(); 
         }
     }
 }
