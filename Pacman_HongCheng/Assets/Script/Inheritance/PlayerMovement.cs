@@ -11,7 +11,8 @@ public class PlayerMovement : Subject
     public GameObject particle, PUparticle; 
     public GameObject spawner;
     public bool playerDead;
-    GameObject[] Enemies; 
+    GameObject[] Enemies;
+    GameObject[] PowerUps;
 
     private void Start()
     {
@@ -20,7 +21,6 @@ public class PlayerMovement : Subject
         pus = GameObject.FindGameObjectWithTag("PUS").GetComponent<PUSpawner>();
         CC = GetComponent<CharacterController>();
         RB = GetComponent<Rigidbody>();
-        
     }
 
     void Update()
@@ -52,11 +52,19 @@ public class PlayerMovement : Subject
         if (playerDead)
         {
             GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+            
             Enemies = GameObject.FindGameObjectsWithTag("Enemy");
             foreach (GameObject enemy in Enemies)
             {
                 enemy.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
                 enemy.GetComponent<NavMeshAgent>().speed = 0; 
+            }
+
+            PowerUps = GameObject.FindGameObjectsWithTag("PowerUp");
+            foreach (GameObject powerUp in PowerUps)
+            {
+                powerUp.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+                powerUp.GetComponent<NavMeshAgent>().speed = 0;
             }
         }
     }
@@ -87,11 +95,11 @@ public class PlayerMovement : Subject
             }
         }
 
-        if(other.tag == "PowerUp")
+        if(other.tag == "PowerUp" && !playerDead)
         {
             poweredUp = true;
             Destroy(other.gameObject);
-            //pus.Spawn(); 
+            pus.Spawn(); 
         }
     }
 }

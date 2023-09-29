@@ -9,6 +9,7 @@ TagManager:
   - Destination
   - Menu
   - PUS
+  - Wall
   layers:
   - Default
   - TransparentFX

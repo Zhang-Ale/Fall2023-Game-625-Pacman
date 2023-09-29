@@ -43,7 +43,7 @@ public class Menu : Subject
     void SetCountText()
     {
         pointText.text = "Point: " + point.ToString();
-        if (point >= 5)
+        if (point >= 50)
         {
             StopGame(); 
         }

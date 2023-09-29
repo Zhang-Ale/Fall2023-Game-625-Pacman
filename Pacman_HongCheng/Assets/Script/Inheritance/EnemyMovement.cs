@@ -7,7 +7,7 @@ public class EnemyMovement : Subject
 {
     GameObject player;
     NavMeshAgent enemy;
-    public GameObject part, PUparticle;
+    public GameObject part, PUparticle; 
 
     void Start()
     {
@@ -54,7 +54,7 @@ public class EnemyMovement : Subject
         {
             poweredUp = true;
             Destroy(other.gameObject);
-            //pus.Spawn(); 
+            pus.Spawn(); 
         }
     }
 }
