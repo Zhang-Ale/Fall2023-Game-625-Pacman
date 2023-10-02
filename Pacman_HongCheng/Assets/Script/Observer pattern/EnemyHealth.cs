@@ -6,20 +6,23 @@ public class EnemyHealth : Observable
 {
     int health = 3;
     public int currentHealth;
-    CameraScript CS; 
+    CameraScript CS;
+    Menu menu; 
     void Start()
     {
         currentHealth = health;
         CS = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraScript>();
+        menu = GameObject.Find("Canvas").GetComponent<Menu>();
     }
 
-    public void IsDestroyed()
+    public void Update()
     {
         if(currentHealth == 0)
         {
+            menu.AddPoint();
+            Notify(Action.OnEnemyDestroy);
             CS.ShakeCam(0.1f, 0.5f);
-            CS.ResetShake();
-            Destroy(this);
+            Destroy(this.gameObject);
         }
     }
 
@@ -27,7 +30,6 @@ public class EnemyHealth : Observable
     {
         if (other.tag == "Bullet")
         {
-            Notify(Action.OnEnemyShot);
             currentHealth -= 1; 
         }
     }

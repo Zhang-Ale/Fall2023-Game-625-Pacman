@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PowerUpCollect : Observable
+public class ShootSystem : Observable
 {
     public float _fireRate = 0.5f;
     public float _canFire = -1f;
@@ -26,7 +26,6 @@ public class PowerUpCollect : Observable
     {
         _canFire = Time.time + _fireRate;
         GameObject bullet = Instantiate(_bulletPrefab, shootPosition.transform.position, Quaternion.identity);
-        //bullet.GetComponent<Rigidbody>().velocity = Vector3.forward * 5f;
         bullet.GetComponent<Rigidbody>().velocity = direction * forceMultiplicator;
     }
 

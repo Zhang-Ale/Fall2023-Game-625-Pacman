@@ -12,7 +12,7 @@ public class PlayerMovement : Subject
     public GameObject spawner;
     public bool playerDead;
     GameObject[] Enemies;
-    GameObject[] PowerUps;
+    GameObject[] PowerUps; 
 
     private void Start()
     {
@@ -98,8 +98,7 @@ public class PlayerMovement : Subject
         if(other.tag == "PowerUp" && !playerDead)
         {
             poweredUp = true;
-            Destroy(other.gameObject);
-            pus.Spawn(); 
+            pus.Invoke("Spawn", 5); 
         }
     }
 }

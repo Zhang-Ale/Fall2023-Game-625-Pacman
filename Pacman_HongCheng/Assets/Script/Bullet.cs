@@ -13,13 +13,12 @@ public class Bullet : MonoBehaviour
     {
         if(other.tag == "Enemy")
         {
-            Destroy(other.gameObject);
             Destroy(gameObject);
         }
+
         if(other.tag == "Wall")
         {
             Destroy(gameObject); 
-
         }
     }
 }

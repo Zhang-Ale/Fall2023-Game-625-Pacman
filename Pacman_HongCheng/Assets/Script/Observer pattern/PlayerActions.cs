@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class PlayerActions : MonoBehaviour, IObserver
 {
-
-    [SerializeField] int _HitCount = 0;
-    int _destroyThreshold = 5;
-    Coroutine _currentHitResetRoutine = null;
+    [SerializeField] int _destroyCount = 0;
+    int _destroyThreshold = 2;
+    bool comboReset; 
+    Coroutine _currentDestroyResetRoutine = null;
     Coroutine _currentPowerUpResetRoutine = null;
     public AudioSource _audioPlayer1, _audioPlayer2;
     public AudioClip _shootAudioClip;
@@ -20,30 +20,28 @@ public class PlayerActions : MonoBehaviour, IObserver
    
     public void OnNotify(Action actionType)
     {
-        Debug.Log("I got notified");
         switch (actionType)
         {
-            case (Action.OnEnemyShot):
-                Debug.Log("enemy shot");
-                if (_currentHitResetRoutine != null)
+            case (Action.OnEnemyDestroy):
+                if (_currentDestroyResetRoutine != null)
                 {
-                    StopCoroutine(_currentHitResetRoutine);
-                } 
-                _HitCount += 1;
+                    StopCoroutine(_currentDestroyResetRoutine);
+                }
+                _destroyCount += 1;
 
-                if (_HitCount == _destroyThreshold)
+                if (_destroyCount == _destroyThreshold && comboReset)
                 {
                     comboAnim.SetTrigger("Play");
                     _audioPlayer1.clip = _comboAudioClip;
                     _audioPlayer1.Play();
+                    comboReset = false; 
                 }
-
-                _currentHitResetRoutine = StartCoroutine(HitResetRoutine());
+                StartCoroutine(ComboResetRoutine());
+                _currentDestroyResetRoutine = StartCoroutine(DestroyResetRoutine());
                 break; //(exits the switch)
                 //default(exits the whole void function)
 
             case (Action.OnPlayerShoot):
-                Debug.Log("shooting");
                 CS.ShakeCam(0.1f, 0.5f);
                  
                 _audioPlayer2.clip = _shootAudioClip;
@@ -51,7 +49,7 @@ public class PlayerActions : MonoBehaviour, IObserver
                 break;
 
             case (Action.OnPowerUpCollect):
-                Debug.Log("collect power up");
+
                 if (_currentPowerUpResetRoutine != null)
                 {
                     StopCoroutine(_currentPowerUpResetRoutine);
@@ -63,22 +61,27 @@ public class PlayerActions : MonoBehaviour, IObserver
                 break;
 
             default:
-                Debug.Log("Not an action type."); 
                 break;
         }
         Debug.Log(actionType.ToString());
     }
 
 
-    IEnumerator HitResetRoutine()
+    IEnumerator DestroyResetRoutine()
     {
-        yield return new WaitForSeconds(3f);
-        _HitCount = 0;
+        yield return new WaitForSeconds(4f);
+        _destroyCount = 0;
     }
 
     IEnumerator PowerUpResetRoutine()
     {
         yield return new WaitForSeconds(5f);
         powerUpIcon.SetActive(false);
+    }
+
+    IEnumerator ComboResetRoutine()
+    {
+        yield return new WaitForSeconds(5f);
+        comboReset = true; 
     }
 }

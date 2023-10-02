@@ -10,6 +10,7 @@ TagManager:
   - Menu
   - PUS
   - Wall
+  - Bullet
   layers:
   - Default
   - TransparentFX

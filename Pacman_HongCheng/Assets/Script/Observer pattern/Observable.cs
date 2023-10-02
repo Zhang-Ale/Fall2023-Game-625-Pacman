@@ -6,13 +6,19 @@ public interface IObserver
 {
     void OnNotify(Action actionType);
 }
+//Either the one on top, or the one below
+public abstract class Observer : MonoBehaviour
+{
+    public abstract void OnNotify(Action actionType);
+}
 
 public enum Action
 {
     OnPlayerShoot,
-    OnEnemyShot, 
+    OnEnemyDestroy, 
     OnPowerUpCollect
 }
+
 
 public class Observable : MonoBehaviour
 {
