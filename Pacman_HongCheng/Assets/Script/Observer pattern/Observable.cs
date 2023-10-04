@@ -19,7 +19,6 @@ public enum Action
     OnPowerUpCollect
 }
 
-
 public class Observable : MonoBehaviour
 {
     //a collection of all the observers of this subject

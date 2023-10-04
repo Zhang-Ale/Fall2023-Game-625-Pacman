@@ -16,7 +16,6 @@ public class PlayerActions : MonoBehaviour, IObserver
     public AudioClip _collectAudioClip;
     public CameraScript CS;
     public GameObject powerUpIcon; 
-
    
     public void OnNotify(Action actionType)
     {
@@ -29,12 +28,10 @@ public class PlayerActions : MonoBehaviour, IObserver
                 }
                 _destroyCount += 1;
 
-                if (_destroyCount == _destroyThreshold && comboReset)
+                if (_destroyCount == _destroyThreshold && !comboReset)
                 {
                     comboAnim.SetTrigger("Play");
-                    _audioPlayer1.clip = _comboAudioClip;
-                    _audioPlayer1.Play();
-                    comboReset = false; 
+                    comboReset = true; 
                 }
                 StartCoroutine(ComboResetRoutine());
                 _currentDestroyResetRoutine = StartCoroutine(DestroyResetRoutine());
@@ -42,19 +39,15 @@ public class PlayerActions : MonoBehaviour, IObserver
                 //default(exits the whole void function)
 
             case (Action.OnPlayerShoot):
-                CS.ShakeCam(0.1f, 0.5f);
-                 
-                _audioPlayer2.clip = _shootAudioClip;
+                CS.ShakeCam(0.05f, 0.01f);
                 _audioPlayer2.Play();
                 break;
 
             case (Action.OnPowerUpCollect):
-
                 if (_currentPowerUpResetRoutine != null)
                 {
                     StopCoroutine(_currentPowerUpResetRoutine);
                 }
-                _audioPlayer1.clip = _collectAudioClip;
                 _audioPlayer1.Play();
                 powerUpIcon.SetActive(true);
                 _currentPowerUpResetRoutine = StartCoroutine(PowerUpResetRoutine());
@@ -65,7 +58,6 @@ public class PlayerActions : MonoBehaviour, IObserver
         }
         Debug.Log(actionType.ToString());
     }
-
 
     IEnumerator DestroyResetRoutine()
     {
@@ -82,6 +74,6 @@ public class PlayerActions : MonoBehaviour, IObserver
     IEnumerator ComboResetRoutine()
     {
         yield return new WaitForSeconds(5f);
-        comboReset = true; 
+        comboReset = false; 
     }
 }

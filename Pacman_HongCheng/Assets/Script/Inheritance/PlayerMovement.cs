@@ -98,7 +98,7 @@ public class PlayerMovement : Subject
         if(other.tag == "PowerUp" && !playerDead)
         {
             poweredUp = true;
-            pus.Invoke("Spawn", 5); 
+            pus.Invoke("Spawn", 5);
         }
     }
 }

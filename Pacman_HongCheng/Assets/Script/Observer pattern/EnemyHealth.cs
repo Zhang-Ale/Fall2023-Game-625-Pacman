@@ -6,13 +6,18 @@ public class EnemyHealth : Observable
 {
     int health = 3;
     public int currentHealth;
-    CameraScript CS;
-    Menu menu; 
+    Menu menu;
+    AudioSource AS;
+    public Material whiteMat;
+    MeshRenderer rend;
+    Material ogMat; 
     void Start()
     {
         currentHealth = health;
-        CS = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraScript>();
+        rend = GetComponent<MeshRenderer>();
+        AS = GetComponent<AudioSource>();
         menu = GameObject.Find("Canvas").GetComponent<Menu>();
+        ogMat = rend.material;
     }
 
     public void Update()
@@ -21,7 +26,6 @@ public class EnemyHealth : Observable
         {
             menu.AddPoint();
             Notify(Action.OnEnemyDestroy);
-            CS.ShakeCam(0.1f, 0.5f);
             Destroy(this.gameObject);
         }
     }
@@ -30,8 +34,17 @@ public class EnemyHealth : Observable
     {
         if (other.tag == "Bullet")
         {
-            currentHealth -= 1; 
+            StartCoroutine("TakeDamage");
+            currentHealth -= 1;
         }
+    }
+
+    IEnumerator TakeDamage()
+    {
+        AS.Play();
+        rend.material = whiteMat;
+        yield return new WaitForSeconds(0.1f);
+        rend.material = ogMat; 
     }
 
     private void Awake()
