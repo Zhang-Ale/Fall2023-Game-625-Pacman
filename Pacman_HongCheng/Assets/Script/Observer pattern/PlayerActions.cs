@@ -15,18 +15,22 @@ public class PlayerActions : MonoBehaviour, IObserver
     public AudioClip _comboAudioClip;
     public AudioClip _collectAudioClip;
     public CameraScript CS;
-    public GameObject powerUpIcon; 
-   
-    public void OnNotify(Action actionType)
+    public GameObject powerUpIcon;
+    public ParticleSystem splashPart;
+    public Transform enemyDeathPos; 
+
+    public void OnNotify(GameObject GameObj, Action actionType)
     {
         switch (actionType)
         {
             case (Action.OnEnemyDestroy):
+                splashPart.transform.position = GameObj.transform.position;
                 if (_currentDestroyResetRoutine != null)
                 {
                     StopCoroutine(_currentDestroyResetRoutine);
                 }
                 _destroyCount += 1;
+                splashPart.GetComponent<ParticleController>().play = true;
 
                 if (_destroyCount == _destroyThreshold && !comboReset)
                 {

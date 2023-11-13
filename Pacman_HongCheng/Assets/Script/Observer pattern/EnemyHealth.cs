@@ -10,7 +10,8 @@ public class EnemyHealth : Observable
     AudioSource AS;
     public Material whiteMat;
     MeshRenderer rend;
-    Material ogMat; 
+    Material ogMat;
+    public bool notified; 
     void Start()
     {
         currentHealth = health;
@@ -22,11 +23,13 @@ public class EnemyHealth : Observable
 
     public void Update()
     {
-        if(currentHealth == 0)
+        if(currentHealth == 0 && !notified)
         {
+            Notify(this.gameObject, Action.OnEnemyDestroy);
+            notified = true; 
             menu.AddPoint();
-            Notify(Action.OnEnemyDestroy);
-            Destroy(this.gameObject);
+            if(notified)
+            Destroy(this.gameObject, 1);
         }
     }
 
@@ -34,6 +37,7 @@ public class EnemyHealth : Observable
     {
         if (other.tag == "Bullet")
         {
+            FindObjectOfType<HitStop>().Stop(0.075f);
             StartCoroutine("TakeDamage");
             currentHealth -= 1;
         }
@@ -41,6 +45,10 @@ public class EnemyHealth : Observable
 
     IEnumerator TakeDamage()
     {
+        while (Time.timeScale != 1)
+        {
+            yield return null;
+        }
         AS.Play();
         rend.material = whiteMat;
         yield return new WaitForSeconds(0.1f);

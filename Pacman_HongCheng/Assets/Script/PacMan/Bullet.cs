@@ -6,7 +6,7 @@ public class Bullet : MonoBehaviour
 {
     private void Update()
     {
-        Destroy(gameObject, 2f);     
+        Destroy(gameObject, 5f);     
     }
 
     private void OnTriggerEnter(Collider other)
@@ -14,11 +14,6 @@ public class Bullet : MonoBehaviour
         if(other.tag == "Enemy")
         {
             Destroy(gameObject);
-        }
-
-        if(other.tag == "Wall")
-        {
-            Destroy(gameObject); 
         }
     }
 }

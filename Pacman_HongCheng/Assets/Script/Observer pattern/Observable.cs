@@ -4,12 +4,12 @@ using UnityEngine;
 
 public interface IObserver
 {
-    void OnNotify(Action actionType);
+    void OnNotify(GameObject GameObj, Action actionType);
 }
 //Either the one on top, or the one below
 public abstract class Observer : MonoBehaviour
 {
-    public abstract void OnNotify(Action actionType);
+    public abstract void OnNotify(GameObject GameObj, Action actionType);
 }
 
 public enum Action
@@ -37,11 +37,11 @@ public class Observable : MonoBehaviour
     }
 
     //notify all observers
-    public void Notify(Action actionType)
+    public void Notify(GameObject GameObj, Action actionType)
     {
         foreach (IObserver observer in _observers)
         {
-            observer.OnNotify(actionType);
+            observer.OnNotify(GameObj, actionType);
         }
     }
 }

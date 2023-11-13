@@ -11,7 +11,7 @@ public class PowerUpMovement : Subject
     public float smellSense = 5;
     NavMeshAgent powerUp;
     public GameObject part;
-    [SerializeField]bool isSeeking; 
+    [SerializeField]bool isSeeking;
 
     private void SetNextDestination()
     {

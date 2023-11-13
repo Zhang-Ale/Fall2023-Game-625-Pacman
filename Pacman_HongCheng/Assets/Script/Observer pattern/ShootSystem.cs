@@ -21,7 +21,7 @@ public class ShootSystem : Observable
         if (Input.GetMouseButtonDown(0) && _fireRate < Time.time)
         {
             ShootBullet(direction);
-            Notify(Action.OnPlayerShoot);
+            Notify(this.gameObject, Action.OnPlayerShoot);
             _fireRate = Time.time + 0.5f;
         }
     }
@@ -29,15 +29,18 @@ public class ShootSystem : Observable
     void ShootBullet(Vector3 direction)
     {
         pistolAnim.SetTrigger("Shoot"); 
-        GameObject bullet = Instantiate(_bulletPrefab, shootPosition.transform.position, Quaternion.identity);
-        bullet.GetComponent<Rigidbody>().velocity = direction * forceMultiplicator;
+        for(int i = 0; i < 10; i++)
+        {
+            GameObject bullet = Instantiate(_bulletPrefab, shootPosition.transform.position, Quaternion.identity);
+            bullet.GetComponent<Rigidbody>().velocity = direction * forceMultiplicator;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "PowerUp")
         {
-            Notify(Action.OnPowerUpCollect);
+            Notify(this.gameObject, Action.OnPowerUpCollect);
             Destroy(other.gameObject);
         }
     }

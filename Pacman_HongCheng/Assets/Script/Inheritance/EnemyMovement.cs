@@ -7,7 +7,8 @@ public class EnemyMovement : Subject
 {
     GameObject player;
     NavMeshAgent enemy;
-    public GameObject part, PUparticle; 
+    public GameObject part, PUparticle;
+    EnemyHealth EH;
 
     void Start()
     {
@@ -16,14 +17,22 @@ public class EnemyMovement : Subject
         enemy = gameObject.GetComponent<NavMeshAgent>();
         menu = GameObject.FindGameObjectWithTag("Menu").GetComponent<Menu>();
         pus = GameObject.FindGameObjectWithTag("PUS").GetComponent<PUSpawner>();
+        EH = GetComponent<EnemyHealth>();
     }
 
     void Update()
     {
-        if (menu.gameStarted)
+        if (menu.gameStarted && !EH.notified)
         {
+            enemy.speed = 30; 
             enemy.SetDestination(player.transform.position);
         }
+        else
+        {
+            enemy.speed = 0;
+            enemy.SetDestination(this.gameObject.transform.position);
+        }
+
         
         if(GetComponent<Rigidbody>().velocity.magnitude != 0)
         {
@@ -37,8 +46,7 @@ public class EnemyMovement : Subject
         else
         {
             StopCoroutine(PowerUpTime());
-        }
-
+        }   
     }
 
     IEnumerator PowerUpTime()
@@ -54,7 +62,7 @@ public class EnemyMovement : Subject
         {
             poweredUp = true;
             Destroy(other.gameObject);
-            pus.Spawn(); 
+            pus.Invoke("Spawn", 5); 
         }
     }
 }

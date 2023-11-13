@@ -169,6 +169,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHealth: 0
   whiteMat: {fileID: 2100000, guid: d1b53a2bc1c164143ae6ac3e172f9a25, type: 2}
+  notified: 0
 --- !u!82 &5693977797083328348
 AudioSource:
   m_ObjectHideFlags: 0
@@ -180,7 +181,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 328b6be54638f8147b0c6dbca34d9263, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: -1
   Loop: 0
